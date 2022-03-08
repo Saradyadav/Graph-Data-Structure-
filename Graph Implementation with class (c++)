@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+class graph{
+  int v;
+  list<int> *l;
+  public:
+  graph(int V){
+    v = V;
+    l = new list<int>[V];
+  }
+  void addEdge(int x , int y){
+    l[x].push_back(y);
+    l[y].push_back(x);
+  }
+  void print(){
+    for(int i = 0 ; i < v; i++){
+      cout<<"vertices of "<<i<<"-> ";
+      for(auto i : l[i])
+        cout<<i<<" ";
+      cout<<endl;
+    }
+  }
+};
+int main(){
+  graph g(4);
+  int m;
+  cin>>m;
+  for(int i = 0; i < m; i++){
+    int u , v;
+    cin>>u>>v;
+    g.addEdge(u,v);
+  }
+  g.print();
+  return 0;
+}
