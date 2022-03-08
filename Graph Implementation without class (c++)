@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+void dfs(vector<int> adj[] , bool visited[] , int index){
+    cout<<index<<" ";
+    visited[index] = true;
+    for(auto i = 0; i < adj[index].size(); i++)
+    {
+        if(visited[adj[index][i]] == false){
+            visited[adj[index][i]] = true;
+            dfs(adj , visited , adj[index][i]);
+        }
+    }
+}
+/*
+0---1
+|   |
+|   |
+2---3
+*/
+void bfs(vector<int> adj[] , int size){
+  queue<int> q;
+  q.push(0);
+  bool visited[size];
+    memset(visited , false , sizeof(visited));
+  visited[0] = true;
+  while(!q.empty()){
+    int ele = q.front();
+    cout<<ele<<" ";
+    q.pop();
+    for(int i = 0; i < adj[ele].size(); i++){
+      if(visited[adj[ele][i]] == false)
+      {
+          visited[adj[ele][i]] = true;
+          q.push(adj[ele][i]);
+      }
+    }
+  }
+}
+int main(){
+    int n , m;
+    cin>>n>>m;
+    vector<int> adj[n+1];
+    for(int i = 0; i < m; i++){
+        int u , v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+        //adj[v].push_back(u);
+    };
+    bool visited[n+1];
+    memset(visited , false , sizeof(visited));
+    dfs(adj , visited , 0);
+    bfs(adj , n);
+    return 0;
+}
