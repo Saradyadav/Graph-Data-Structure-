@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int selectMinVertex(vector<bool>&visited,vector<int>value,int v)
+{
+  int minvalue = INT_MAX;
+  int vertexmin;
+  for(int i = 0; i<v; i ++)
+  {
+    if(value[i]<minvalue && visited[i] != true)
+    {
+      vertexmin = i;
+    minvalue = value[i];
+    }
+  }
+  return vertexmin;
+}
+void dijskra(vector<vector<int>>&adj,int v,int e)
+{
+  //use visited array
+  vector<bool>visited(v,false);
+
+  //use value array
+  vector<int>value(v,INT_MAX);
+  value[0] = 0;
+
+  //use array to store SPG(single shotest path graph)
+  vector<int>parent(v,-1);
+
+  for(int i = 0 ; i < v; i ++)
+  {
+    int minvertex = selectMinVertex(visited,value,v);
+    visited[minvertex] = true;
+  for(int j = 0 ; j < v; j ++)
+    {
+           if(adj[minvertex][j]!=0 && (value[j]>value[minvertex] + adj[minvertex][j]) && visited[j] == false && value[minvertex]!=INT_MAX)
+           {
+           value[j] = value[minvertex] + adj[minvertex][j];
+           parent[j] = minvertex;
+           }
+    }
+  }
+  //Print Shortest Path Graph
+	for(int i=0;i<v;++i)
+		cout<<"U->V: "<<parent[i]<<"->"<<i<<"  wt = "<<adj[parent[i]][i]<<"\n";
+
+
+
+}
+int main()
+{
+  int v,e;
+  cin >> v >> e;
+  vector<vector<int>>adj(v,vector<int>(v,0));
+
+  for(int i =0; i < e; i ++)
+  {
+       int from,to,wt;
+       cin >> from >> to >> wt;
+       adj[from][to] = wt;
+       adj[to][from] = wt;
+  }
+  //cout << "find single shortest path from sourse to all other vertixs";
+  //using dijskra's algorithm
+  dijskra(adj,v,e);
+  return 0;
+}
